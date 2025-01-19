@@ -440,30 +440,32 @@ function rotateMatrix(matrix) {
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
 function sortByAsc(arr) {
-  const pivot = arr[0];
-  let leftFromPivot = [];
-  let rightFromPivot = [];
+  if (arr.length < 2) {
+    return arr;
+  }
+  let low = [];
+  let high = [];
+  let arrCopy = arr;
+  const pivot = arrCopy[0];
 
-  for (let i = 1; i < arr.length; i += 1) {
-    if (arr[i] < pivot) {
-      leftFromPivot[leftFromPivot.length] = arr[i];
+  for (let i = 1; i < arrCopy.length; i += 1) {
+    if (arrCopy[i] < pivot) {
+      low[low.length] = arrCopy[i];
     } else {
-      rightFromPivot[rightFromPivot.length] = arr[i];
+      high[high.length] = arrCopy[i];
     }
   }
-  leftFromPivot = sortByAsc(leftFromPivot);
-  rightFromPivot = sortByAsc(rightFromPivot);
-  const resultArr = arr;
-  for (let i = 0; i < leftFromPivot.length; i += 1) {
-    resultArr[i] = leftFromPivot[i];
+
+  low = sortByAsc(low);
+  high = sortByAsc(high);
+  arrCopy = [...low, pivot, ...high];
+
+  const result = arr;
+  for (let i = 0; i < arrCopy.length; i += 1) {
+    result[i] = arrCopy[i];
   }
 
-  resultArr[leftFromPivot.length] = pivot;
-
-  for (let i = 0; i < rightFromPivot.length; i += 1) {
-    resultArr[leftFromPivot.length + 1 + i] = rightFromPivot[i];
-  }
-  return resultArr;
+  return arr;
 }
 
 /**
